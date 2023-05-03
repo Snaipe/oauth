@@ -55,11 +55,15 @@ type CodeResponse struct {
 }
 
 // RequestCode initiates the authorization flow by requesting a code from uri.
-func RequestCode(c httpClient, uri string, clientID string, scopes []string) (*CodeResponse, error) {
-	resp, err := api.PostForm(c, uri, url.Values{
+func RequestCode(c httpClient, uri string, clientID string, clientSecret *string, scopes []string) (*CodeResponse, error) {
+	values := url.Values{
 		"client_id": {clientID},
 		"scope":     {strings.Join(scopes, " ")},
-	})
+	}
+	if clientSecret != nil {
+		values["client_secret"] = []string{*clientSecret}
+	}
+	resp, err := api.PostForm(c, uri, values)
 	if err != nil {
 		return nil, err
 	}

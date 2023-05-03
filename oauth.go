@@ -67,6 +67,10 @@ type Flow struct {
 	Stdin io.Reader
 	// The stream to print UI messages to. Defaults to os.Stdout.
 	Stdout io.Writer
+
+	// Send the client secret during the device flow. This works around non-RFC-compliant
+	// implementations.
+	SendClientSecretInDeviceFlow bool
 }
 
 // DetectFlow tries to perform Device flow first and falls back to Web application flow.
